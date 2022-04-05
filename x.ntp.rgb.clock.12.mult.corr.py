@@ -27,8 +27,8 @@ while set:
     print("hour: "+ str(hour))
     print("min: "+ str(min))
     print("sec: "+ str(sec))
-    ledmin=(min/5+7)%12  # =7 ring shift
-    ledsec=sec/5
+    ledmin=(min/5+7)%12  # +7 ring shift
+    ledsec=(sec/5+7)%12  # +7 ring shift
     ledhour=(hour+9)%12  # +7 ring shift +2 GMT time
     print(int(ledhour),int(ledmin),int(ledsec))
     set_clock(int(ledhour),int(ledmin),int(ledsec),64)
