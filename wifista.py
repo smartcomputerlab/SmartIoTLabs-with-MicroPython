@@ -1,28 +1,38 @@
+from machine import Pin
+
+def scan():
+    import network
+    station = network.WLAN(network.STA_IF)
+    station.active(True)
+
+    for (ssid, bssid, channel, RSSI, authmode, hidden) in station.scan():
+        print("* {:s}".format(ssid))
+        print(" - Channel: {}".format(channel))
+        print(" - RSSI: {}".format(RSSI))
+        print(" - BSSID: {:02x}:{:02x}:{:02x}:{:02x}:{:02x}:{:02x}".format(*bssid))
+        print()
+
+
 def connect():
     import network
+    ssid      = "SmartIoTLab"
+    password  =  ""
     
-    ip        = '192.168.1.110'
-    subnet    = '255.255.255.0'
-    gateway   = '192.168.1.1'
-    dns       = '8.8.8.8'
-    ssid      = "Livebox-08B0"
-    password  =  "G79ji6dtEptVTPWmZP"
- 
     station = network.WLAN(network.STA_IF)
 
     if station.isconnected() == True:
         print("Already connected")
-        return
+        return station
  
     station.active(True)
-    # station.ifconfig((ip,subnet,gateway,dns))  # uncomment to set static IP
     station.connect(ssid,password)
- 
+    
     while station.isconnected() == False:
         pass
  
     print("Connection successful")
     print(station.ifconfig())
+    return station
 
 def disconnect():
     import network
@@ -31,5 +41,7 @@ def disconnect():
     station.active(False)
     
 
+scan()
+disconnect()
 connect()
  
